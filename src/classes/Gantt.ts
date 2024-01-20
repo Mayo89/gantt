@@ -5,7 +5,7 @@ import { GanttWorker } from './Worker';
 export class Gantt {
 	rows: Array<GanttRow> = [];
 	horizon: GanttHorizon;
-	pixelsPerHour = 3;
+	pixelsPerHour = 4;
 
 	constructor() {
 		this.rows = [];

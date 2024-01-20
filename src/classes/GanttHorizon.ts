@@ -7,7 +7,7 @@ export class GanttHorizon {
 
 	constructor() {
 		this.start = DateTime.now().minus({ months: 1 });
-		this.end = this.start.plus({ months: 1 });
+		this.end = this.start.plus({ months: 3 });
 		this.interval = Interval.fromDateTimes(this.start, this.end);
 	}
 

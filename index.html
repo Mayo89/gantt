@@ -7,18 +7,15 @@
 	</head>
 	<body class="h-screen">
 		<script type="module" src="/src/main.ts"></script>
-		<div id="app" class="h-screen">
-			<div class="grid grid-cols-5 grid-rows-6 h-screen">
-				<div class="bg-sky-500">Menu</div>
-				<div
-					class="labels row-span-5 col-start-1 row-start-2 bg-indigo-500"
-				></div>
-				<div
-					class="dates h-full text-xs col-span-4 col-start-2 row-start-1 bg-orange-400"
-				></div>
-				<div class="col-span-4 row-span-5 row-start-2 bg-green-600">
-					Gantt
-				</div>
+		<div id="app" class="h-screen flex flex-col">
+			<!-- <div class="flex flex-row bg-sky-500">Menu</div>
+				<div class="labels bg-indigo-500"></div> -->
+			<div class="dates ml-32 text-sm"></div>
+			<div id="ganttDiv" class="flex flex-col flex-grow">
+				<canvas
+					id="ganttCanvas"
+					class="ml-32 absolute border-l z-0"
+				></canvas>
 			</div>
 		</div>
 	</body>
