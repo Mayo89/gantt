@@ -9,18 +9,13 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.5.3",
     "@types/luxon": "^3.4.2",
-    "@typescript-eslint/eslint-plugin": "^6.20.0",
-    "@typescript-eslint/parser": "^6.20.0",
     "autoprefixer": "^10.4.17",
-    "biome": "^0.3.3",
-    "eslint": "^8.56.0",
-    "eslint-config-prettier": "^9.1.0",
-    "postcss": "^8.4.33",
-    "prettier": "3.0.3",
+    "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.3.3",
-    "vite": "^5.0.12"
+    "vite": "^5.1.1"
   },
   "dependencies": {
     "luxon": "^3.4.4"

@@ -69,15 +69,6 @@ const ctx = ganttCanvas.getContext('2d') as CanvasRenderingContext2D;
 // Normalize coordinate system to use CSS pixels.
 ctx.scale(scale, scale);
 
-const now = DateTime.now();
-const nowX = Math.floor(now.diff(gantt.horizon.start, 'hours').hours * gantt.pixelsPerHour);
-
-ctx.strokeStyle = '#FF3366';
-ctx.lineWidth = 2;
-ctx.beginPath();
-ctx.moveTo(nowX, 0);
-ctx.lineTo(nowX, ganttCanvas.height);
-ctx.stroke();
 ctx.strokeStyle = '#F4F7F5';
 ctx.lineWidth = 1;
 
@@ -155,12 +146,24 @@ if (gantt.pixelsPerHour >= 24) {
 	dateDiv?.appendChild(hourRow);
 }
 
+const now = DateTime.now();
+const nowX = Math.floor(
+	now.diff(gantt.horizon.start, 'hours').hours * gantt.pixelsPerHour,
+);
+
+ctx.strokeStyle = '#FF3366';
+ctx.lineWidth = 2;
+ctx.beginPath();
+ctx.moveTo(nowX, 0);
+ctx.lineTo(nowX, ganttCanvas.height);
+ctx.stroke();
+
 const nowDot = document.createElement('div');
 nowDot.classList.add('now-dot');
 nowDot.style.marginLeft = `${nowX - 7.5}px`;
 dateDiv.appendChild(nowDot);
 
-let dragging = null as any;
+let dragging = null as HTMLDivElement | null;
 
 function dragstartHandler(ev: DragEvent) {
 	if (!ev.dataTransfer || !ev.target) return;
@@ -184,7 +187,7 @@ function dragoverHandler(ev: DragEvent) {
 function dropHandler(ev: DragEvent) {
 	ev.preventDefault();
 
-	if (!ev.target) return;
+	if (!ev.target || !dragging) return;
 
 	const target = ev.target as HTMLDivElement;
 
@@ -223,7 +226,9 @@ document.onclick = (e: MouseEvent) => {
 	if (e.target.classList.contains('gantt-item')) {
 		ganttItemClick(e);
 	} else {
-		selectedItems.forEach((i) => i.classList.remove('border-zinc-50', 'border-2'));
+		for (const i of selectedItems) {
+			i.classList.remove('border-zinc-50', 'border-2');
+		}
 		selectedItems.length = 0;
 	}
 };
@@ -236,14 +241,16 @@ function ganttItemClick(e: MouseEvent) {
 	target.classList.add('border-zinc-50', 'border-2');
 
 	if (!e.ctrlKey) {
-		selectedItems.forEach((i) => i.classList.remove('border-zinc-50', 'border-2'));
+		for (const i of selectedItems) {
+			i.classList.remove('border-zinc-50', 'border-2');
+		}
 		selectedItems.length = 0;
 	}
 
 	selectedItems.push(target);
 }
 
-gantt.rows.forEach((r) => {
+for (const r of gantt.rows) {
 	const rowDiv = document.createElement('div');
 	rowDiv.id = `worker-${r.worker.id}`;
 	rowDiv.classList.add('flex', 'border-b', 'gantt-row', 'z-10');
@@ -257,10 +264,17 @@ gantt.rows.forEach((r) => {
 	label.classList.add('w-32', 'py-1');
 	label.innerText = r.worker.name;
 
-	r.worker.tasks.forEach((t) => {
+	for (const t of r.worker.tasks) {
 		const taskDiv = document.createElement('div');
-		const start = 112 + Math.floor(t.startDate.diff(gantt.horizon.start, 'hours').hours * gantt.pixelsPerHour);
-		const length = Math.floor(t.endDate.diff(t.startDate, 'hours').hours * gantt.pixelsPerHour);
+		const start =
+			112 +
+			Math.floor(
+				t.startDate.diff(gantt.horizon.start, 'hours').hours *
+					gantt.pixelsPerHour,
+			);
+		const length = Math.floor(
+			t.endDate.diff(t.startDate, 'hours').hours * gantt.pixelsPerHour,
+		);
 
 		taskDiv.style.marginLeft = `${start}px`;
 		taskDiv.style.width = `${length}px`;
@@ -269,12 +283,19 @@ gantt.rows.forEach((r) => {
 		taskDiv.ondragstart = dragstartHandler;
 		taskDiv.draggable = true;
 
-		taskDiv.classList.add('gantt-item', 'absolute', 'rounded', 'my-1', 'text-slate-900', 'hover:cursor-move');
+		taskDiv.classList.add(
+			'gantt-item',
+			'absolute',
+			'rounded',
+			'my-1',
+			'text-slate-900',
+			'hover:cursor-move',
+		);
 		taskDiv.innerText = t.name;
 
 		rowDiv.appendChild(taskDiv);
-	});
+	}
 
 	rowDiv.appendChild(label);
 	ganttDiv.appendChild(rowDiv);
-});
+}
