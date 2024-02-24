@@ -38,11 +38,22 @@ body {
 
 .gantt-item {
 	background-color: #588966;
+	border-color: #3b4344;
+	border-width: 1px;
 	z-index: 1;
+
+	.selected {
+		border-color: white;
+		border-width: 2px;
+	}
 }
 
-.gantt-row.hover {
-	background-color: rgb(10 126 194 /0.8);
+.gantt-row {
+	align-items: center;
+
+	&.hover {
+		background-color: rgb(10 126 194 /0.8);
+	}
 }
 
 .now-dot {
@@ -53,4 +64,5 @@ body {
 	border-radius: 50%;
 	z-index: 2;
 	margin-top: -7.5px;
+
 }

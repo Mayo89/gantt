@@ -10,5 +10,6 @@
 		"ignore": []
 	},
 	"json": { "formatter": { "enabled": true } },
+	"css": { "formatter": { "enabled": true } },
 	"javascript": { "formatter": { "quoteStyle": "single" } }
 }

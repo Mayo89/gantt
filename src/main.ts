@@ -227,7 +227,7 @@ document.onclick = (e: MouseEvent) => {
 		ganttItemClick(e);
 	} else {
 		for (const i of selectedItems) {
-			i.classList.remove('border-zinc-50', 'border-2');
+			i.classList.remove('selected');
 		}
 		selectedItems.length = 0;
 	}
@@ -238,11 +238,11 @@ function ganttItemClick(e: MouseEvent) {
 
 	const target = e.target as HTMLElement;
 
-	target.classList.add('border-zinc-50', 'border-2');
+	target.classList.add('selected');
 
 	if (!e.ctrlKey) {
 		for (const i of selectedItems) {
-			i.classList.remove('border-zinc-50', 'border-2');
+			i.classList.remove('selected');
 		}
 		selectedItems.length = 0;
 	}
