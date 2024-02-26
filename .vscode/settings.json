@@ -1,0 +1,39 @@
+{
+	"editor.suggestSelection": "first",
+	"git.autofetch": true,
+	"editor.formatOnSave": true,
+	"editor.formatOnPaste": true,
+	"editor.defaultFormatter": "biomejs.biome",
+	"editor.formatOnType": true,
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "never",
+		"source.organizeImports": "explicit"
+	},
+	"editor.detectIndentation": false,
+	"editor.insertSpaces": false,
+	"javascript.format.enable": false,
+	"[json]": {
+		"editor.quickSuggestions": {
+			"strings": true
+		},
+		"editor.suggest.insertMode": "replace",
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"editor.tabSize": 2,
+	"editor.inlineSuggest.enabled": true,
+	"explorer.confirmDelete": false,
+	"debug.javascript.autoAttachFilter": "onlyWithFlag",
+	"javascript.validate.enable": true,
+	"markdown.preview.breaks": true,
+	"html.format.wrapAttributes": "force-aligned",
+	"javascript.format.semicolons": "insert",
+	"javascript.preferences.quoteStyle": "single",
+	"typescript.preferences.quoteStyle": "single",
+	"json.format.enable": false,
+	"css.lint.unknownAtRules": "ignore",
+	"css.format.enable": false,
+	"[css]": {
+		"editor.defaultFormatter": "aeschli.vscode-css-formatter"
+	}
+}

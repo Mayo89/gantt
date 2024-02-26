@@ -42,8 +42,8 @@ body {
 	border-width: 1px;
 	z-index: 1;
 
-	.selected {
-		border-color: white;
+	&.selected {
+		border-color: #f4f7f5;
 		border-width: 2px;
 	}
 }
