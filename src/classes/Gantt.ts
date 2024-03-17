@@ -1,6 +1,6 @@
 import { GanttHorizon } from './GanttHorizon';
 import { GanttRow } from './GanttRow';
-import { GanttWorker } from './Worker';
+import type { GanttWorker } from './Worker';
 import { WorkHours } from './Workhours';
 
 export class Gantt {

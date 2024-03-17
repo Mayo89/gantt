@@ -1,5 +1,5 @@
-import { DateTime } from 'luxon';
-import { GanttWorker } from './Worker';
+import type { DateTime } from 'luxon';
+import type { GanttWorker } from './Worker';
 
 export class Task {
 	id: number;
@@ -8,7 +8,12 @@ export class Task {
 	startDate: DateTime;
 	endDate: DateTime;
 
-	constructor(id: number, name: string, startDate: DateTime, endDate: DateTime) {
+	constructor(
+		id: number,
+		name: string,
+		startDate: DateTime,
+		endDate: DateTime,
+	) {
 		this.id = id;
 		this.name = name;
 		this.startDate = startDate;

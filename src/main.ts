@@ -223,7 +223,9 @@ function dragLeave(event: DragEvent) {
 const selectedItems: Array<HTMLElement> = [];
 
 document.onclick = (e: MouseEvent) => {
-	if (e.target.classList.contains('gantt-item')) {
+	const element = e.target as HTMLElement;
+
+	if (element.classList.contains('gantt-item')) {
 		ganttItemClick(e);
 	} else {
 		for (const i of selectedItems) {

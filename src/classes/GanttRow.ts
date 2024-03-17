@@ -1,4 +1,4 @@
-import { GanttWorker } from './Worker';
+import type { GanttWorker } from './Worker';
 
 export class GanttRow {
 	worker: GanttWorker;
