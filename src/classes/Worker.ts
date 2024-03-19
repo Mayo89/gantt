@@ -1,12 +1,12 @@
-import type { Task } from './Task';
+import { Task } from './Task';
 
 export class GanttWorker {
-	id: number;
+	id: string;
 	name: string;
 	tasks: Array<Task> = [];
 
 	constructor(name: string) {
-		this.id = 1;
+		this.id = crypto.randomUUID();
 		this.name = name;
 	}
 

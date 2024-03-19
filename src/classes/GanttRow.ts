@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon';
+import { GanttItem } from './GanttItem';
 import type { GanttWorker } from './Worker';
 import {
 	dragEnter,
@@ -27,12 +28,11 @@ export class GanttRow {
 		const label = document.createElement('div');
 		label.classList.add('w-32', 'py-1');
 		label.innerText = this.worker.name;
+		rowDiv.appendChild(label);
 
 		for (const t of this.worker.tasks) {
-			rowDiv.appendChild(t.render(horizonStart));
+			rowDiv.appendChild(new GanttItem(t).render(horizonStart));
 		}
-
-		rowDiv.appendChild(label);
 
 		return rowDiv;
 	}

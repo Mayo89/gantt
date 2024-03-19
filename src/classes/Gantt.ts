@@ -194,10 +194,6 @@ export class Gantt {
 		this.rows.push(new GanttRow(worker));
 	}
 
-	getRows() {
-		return this.rows;
-	}
-
 	width() {
 		return this.horizon.hours() * pixelsPerHour - labelWidth;
 	}
