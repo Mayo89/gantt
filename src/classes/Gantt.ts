@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon';
+import { labelWidth, pixelsPerHour, rowHeight } from './Constants';
 import { GanttHorizon } from './GanttHorizon';
 import { GanttRow } from './GanttRow';
 import { Task } from './Task';
@@ -9,7 +10,6 @@ import { WorkHours } from './Workhours';
 export class Gantt {
 	rows: Array<GanttRow> = [];
 	horizon: GanttHorizon;
-	pixelsPerHour = 4;
 	workHours: WorkHours;
 	workDays: Array<number> = [];
 
@@ -35,11 +35,13 @@ export class Gantt {
 		const hourRow = document.createElement('div');
 		hourRow.classList.add('flex', 'flex-row', 'border-t');
 		let previousDate = null;
-		let dayWidth = this.pixelsPerHour;
-		let weekWidth = this.pixelsPerHour;
-		let monthWidth = this.pixelsPerHour;
+		let dayWidth = pixelsPerHour;
+		let weekWidth = pixelsPerHour;
+		let monthWidth = pixelsPerHour;
 
-		const ganttCanvas = document.getElementById('ganttCanvas') as HTMLCanvasElement;
+		const ganttCanvas = document.getElementById(
+			'ganttCanvas',
+		) as HTMLCanvasElement;
 
 		ganttCanvas.style.width = `${this.width()}px`;
 		ganttCanvas.style.height = `${this.height()}px`;
@@ -107,18 +109,18 @@ export class Gantt {
 				dayWidth = 0;
 			}
 
-			if (this.pixelsPerHour >= 24) {
+			if (pixelsPerHour >= 24) {
 				const hourDiv = document.createElement('div');
 
 				hourDiv.innerText = newDate.hour.toString();
 				hourDiv.classList.add('border-l', 'py-1');
-				hourDiv.style.width = `${this.pixelsPerHour}px`;
+				hourDiv.style.width = `${pixelsPerHour}px`;
 				hourRow.appendChild(hourDiv);
 			}
 
-			dayWidth += this.pixelsPerHour;
-			weekWidth += this.pixelsPerHour;
-			monthWidth += this.pixelsPerHour;
+			dayWidth += pixelsPerHour;
+			weekWidth += pixelsPerHour;
+			monthWidth += pixelsPerHour;
 			previousDate = newDate;
 		}
 
@@ -126,12 +128,14 @@ export class Gantt {
 		dateDiv?.appendChild(weekRow);
 		dateDiv?.appendChild(dayRow);
 
-		if (this.pixelsPerHour >= 24) {
+		if (pixelsPerHour >= 24) {
 			dateDiv?.appendChild(hourRow);
 		}
 
 		const now = DateTime.now();
-		const nowX = Math.floor(now.diff(this.horizon.start, 'hours').hours * this.pixelsPerHour);
+		const nowX = Math.floor(
+			now.diff(this.horizon.start, 'hours').hours * pixelsPerHour,
+		);
 
 		ctx.strokeStyle = '#FF3366';
 		ctx.lineWidth = 2;
@@ -144,6 +148,12 @@ export class Gantt {
 		nowDot.classList.add('now-dot');
 		nowDot.style.marginLeft = `${nowX - 7.5}px`;
 		dateDiv.appendChild(nowDot);
+
+		const ganttDiv = document.getElementById('ganttDiv') as HTMLDivElement;
+
+		for (const r of this.rows) {
+			ganttDiv.appendChild(r.render(this.horizon.start));
+		}
 
 		return this;
 	}
@@ -169,16 +179,18 @@ export class Gantt {
 					end = start.plus({ hour: duration });
 				}
 
-				worker.addTask(new Task(j, `Task ${j}`, start, end));
+				worker.addTask(
+					new Task(j, `Task ${j}`, start, end, this.horizon.start),
+				);
 			}
 
-			this.addWorker(worker);
+			this.addWorkerRow(worker);
 		}
 
 		return this;
 	}
 
-	addWorker(worker: GanttWorker) {
+	addWorkerRow(worker: GanttWorker) {
 		this.rows.push(new GanttRow(worker));
 	}
 
@@ -187,11 +199,10 @@ export class Gantt {
 	}
 
 	width() {
-		return this.horizon.hours() * this.pixelsPerHour - 112;
+		return this.horizon.hours() * pixelsPerHour - labelWidth;
 	}
 
 	height() {
-		return this.rows.length * 28.8;
+		return this.rows.length * rowHeight;
 	}
 }
-
