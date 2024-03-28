@@ -2,9 +2,7 @@ import { DateTime } from 'luxon';
 import { labelWidth, pixelsPerHour, rowHeight } from './Constants';
 import { GanttHorizon } from './GanttHorizon';
 import { GanttRow } from './GanttRow';
-import { Task } from './Task';
-import { getRandom } from './Utility';
-import { GanttWorker } from './Worker';
+import type { GanttWorker } from './Worker';
 import { WorkHours } from './Workhours';
 
 export class Gantt {
@@ -158,40 +156,16 @@ export class Gantt {
 		return this;
 	}
 
-	generateWorkers(numWorkers = 100) {
-		for (let i = 1; i <= numWorkers; i++) {
-			const worker = new GanttWorker(`worker-${i}`);
-
-			for (let j = 1; j < getRandom(1, 20); j++) {
-				let start = this.horizon.start.plus({
-					hour: getRandom(1, this.horizon.hours()),
-				});
-
-				if (!this.workDays.includes(start.weekday)) {
-					start = start.set({ weekNumber: start.weekNumber + 1, weekday: 1 });
-				}
-
-				const duration = getRandom(8, 48);
-				let end = start.plus({ hour: duration });
-
-				if (!this.workDays.includes(end.weekday)) {
-					start = start.set({ weekday: 3 });
-					end = start.plus({ hour: duration });
-				}
-
-				worker.addTask(
-					new Task(j, `Task ${j}`, start, end, this.horizon.start),
-				);
-			}
-
-			this.addWorkerRow(worker);
-		}
+	addWorkerRow(worker: GanttWorker) {
+		this.rows.push(new GanttRow(worker));
 
 		return this;
 	}
 
-	addWorkerRow(worker: GanttWorker) {
-		this.rows.push(new GanttRow(worker));
+	addWorkerRows(workers: Array<GanttWorker>) {
+		this.rows = this.rows.concat(workers.map((w) => new GanttRow(w)));
+
+		return this;
 	}
 
 	width() {
